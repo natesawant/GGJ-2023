@@ -52,9 +52,11 @@ public class RootPullAbility : MonoBehaviour
                         rb = hit.rigidbody;
                         rb.bodyType = RigidbodyType2D.Dynamic;
                         rb.gravityScale = 0f;
+                        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+                        rb.drag = 3;
                         rb.AddForce(-dir * grabForce);
                         StartCoroutine(LockInPlace(0.5f, rb));
-                        StartCoroutine(movementScript.DisableMovement(0.2f));
+                        StartCoroutine(movementScript.DisableMovement(0.5f));
                         isoRenderer.SetDirection(dir, optional: "Pull");
                         break;
                     case "Solid":
