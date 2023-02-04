@@ -157,7 +157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 0.1
   maxDistance: 3
-  pullForce: 100
+  pullForce: 250
   grabForce: 150
 --- !u!58 &174416821
 CircleCollider2D:
@@ -201,7 +201,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 3
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 284986396}
   - component: {fileID: 284986395}
   m_Layer: 2
-  m_Name: Male Player
+  m_Name: Player Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
