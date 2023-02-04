@@ -8,11 +8,13 @@ public class IsometricPlayerMovement : MonoBehaviour
     IsometricCharacterRenderer isoRenderer;
 
     Rigidbody2D rbody;
+    bool movementEnabled;
 
     private void Awake()
     {
         rbody = GetComponent<Rigidbody2D>();
         isoRenderer = GetComponentInChildren<IsometricCharacterRenderer>();
+        movementEnabled = true;
     }
 
     void FixedUpdate()
@@ -22,9 +24,18 @@ public class IsometricPlayerMovement : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
         Vector2 inputVector = new Vector2(horizontalInput, verticalInput);
         inputVector = Vector2.ClampMagnitude(inputVector, 1);
-        Vector2 movement = inputVector * movementSpeed;
-        Vector2 newPos = currentPos + movement * Time.fixedDeltaTime;
-        isoRenderer.SetDirection(movement);
-        rbody.MovePosition(newPos);
+        if (movementEnabled) { 
+            Vector2 movement = inputVector * movementSpeed;
+            Vector2 newPos = currentPos + movement * Time.fixedDeltaTime;
+            isoRenderer.SetDirection(movement);
+            rbody.MovePosition(newPos);
+        }
+    }
+
+    public IEnumerator DisableMovement(float time)
+    {
+        movementEnabled = false;
+        yield return new WaitForSeconds(time);
+        movementEnabled = true;
     }
 }

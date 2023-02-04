@@ -7,12 +7,14 @@ public class RootPullAbility : MonoBehaviour
 {
     Collider2D coll;
     public float radius, maxDistance;
-    public float pullForce;
+    public float pullForce, grabForce;
+    IsometricPlayerMovement movementScript;
 
     // Start is called before the first frame update
     void Start()
     {
         coll = GetComponent<Collider2D>();
+        movementScript = GetComponent<IsometricPlayerMovement>();
     }
 
     // Update is called once per frame
@@ -24,38 +26,52 @@ public class RootPullAbility : MonoBehaviour
 
         Vector2 playerPosition = (Vector2)transform.position + coll.offset;
 
-
-
         //Debug.DrawRay(playerPosition, 100 * (worldPosition - playerPosition).normalized, Color.red);
 
         Vector2 dir = (worldPosition - playerPosition).normalized;
 
         RaycastHit2D hit = Physics2D.CircleCast(playerPosition, radius, dir, maxDistance);
-        Debug.Log("HIT: " + hit.collider.gameObject.name);
-        Debug.DrawLine(playerPosition, hit.point, Color.white);
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (hit.collider != null)
         {
-            switch (hit.collider.gameObject.tag)
-            {
-                case "Pullable":
-                    Debug.Log("Pullable object hit");
-                    Rigidbody2D rb = hit.rigidbody;
-                    rb.bodyType = RigidbodyType2D.Dynamic;
-                    rb.gravityScale = 0f;
-                    rb.AddForce(-dir * pullForce);
+            // Debug.Log("HIT: " + hit.collider.gameObject.name);
+            Debug.DrawLine(playerPosition, hit.point, Color.white);
 
-                    break;
-                case "Solid":
-                    Debug.Log("Solid object hit");
-                    break;
-                case "Breakable":
-                    Debug.Log("Breakable object hit");
-                    break;
-                default:
-                    Debug.Log("Unknown type hit");
-                    break;
+            Rigidbody2D rb;
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                playerPosition = (Vector2)transform.position + coll.offset;
+                dir = (worldPosition - playerPosition).normalized;
+
+                switch (hit.collider.gameObject.tag)
+                {
+                    case "Pullable":
+                        Debug.Log("Pullable object hit");
+                        rb = hit.rigidbody;
+                        rb.bodyType = RigidbodyType2D.Dynamic;
+                        rb.gravityScale = 0f;
+                        rb.AddForce(-dir * grabForce);
+                        StartCoroutine(LockInPlace(0.5f, rb));
+                        break;
+                    case "Solid":
+                        Debug.Log("Solid object hit");
+                        rb = GetComponent<Rigidbody2D>();
+                        rb.AddForce(dir * pullForce);
+                        StartCoroutine(movementScript.DisableMovement(0.5f));
+                        break;
+                    case "Breakable":
+                        Debug.Log("Breakable object hit");
+                        break;
+                    default:
+                        Debug.Log("Unknown type hit");
+                        break;
+                }
             }
         }
+    }
+    IEnumerator LockInPlace(float time, Rigidbody2D rb)
+    {
+        yield return new WaitForSeconds(time);
+        rb.bodyType = RigidbodyType2D.Static;
     }
 }

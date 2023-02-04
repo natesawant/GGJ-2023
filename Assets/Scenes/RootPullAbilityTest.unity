@@ -156,8 +156,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 0.1
-  maxDistance: 100
-  pullForce: 150
+  maxDistance: 3
+  pullForce: 100
+  grabForce: 150
 --- !u!58 &174416821
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1134,7 +1135,7 @@ GameObject:
   - component: {fileID: 1704913651}
   m_Layer: 0
   m_Name: Walls
-  m_TagString: Untagged
+  m_TagString: Solid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
