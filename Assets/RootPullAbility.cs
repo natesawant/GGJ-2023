@@ -9,12 +9,14 @@ public class RootPullAbility : MonoBehaviour
     public float radius, maxDistance;
     public float pullForce, grabForce;
     IsometricPlayerMovement movementScript;
+    IsometricCharacterRenderer isoRenderer;
 
     // Start is called before the first frame update
     void Start()
     {
         coll = GetComponent<Collider2D>();
         movementScript = GetComponent<IsometricPlayerMovement>();
+        isoRenderer = GetComponentInChildren<IsometricCharacterRenderer>();
     }
 
     // Update is called once per frame
@@ -52,12 +54,15 @@ public class RootPullAbility : MonoBehaviour
                         rb.gravityScale = 0f;
                         rb.AddForce(-dir * grabForce);
                         StartCoroutine(LockInPlace(0.5f, rb));
+                        StartCoroutine(movementScript.DisableMovement(0.2f));
+                        isoRenderer.SetDirection(dir, optional: "Pull");
                         break;
                     case "Solid":
                         Debug.Log("Solid object hit");
                         rb = GetComponent<Rigidbody2D>();
                         rb.AddForce(dir * pullForce);
-                        StartCoroutine(movementScript.DisableMovement(0.5f));
+                        StartCoroutine(movementScript.DisableMovement(0.4f));
+                        isoRenderer.SetDirection(dir, optional: "Pull");
                         break;
                     case "Breakable":
                         Debug.Log("Breakable object hit");

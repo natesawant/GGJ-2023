@@ -6,6 +6,7 @@ public class IsometricCharacterRenderer : MonoBehaviour
 {
     public static readonly string[] staticDirections = { "Static NW", "Static W", "Static SW", "Static S", "Static SE", "Static E", "Static NE", "Static N" };
     public static readonly string[] runDirections = { "Run NW", "Run W", "Run SW", "Run S", "Run SE", "Run E", "Run NE", "Run N" };
+    public static readonly string[] pullDirections = { "Pull NW", "Pull W", "Pull SW", "Pull S", "Pull SE", "Pull E", "Pull NE", "Pull N" };
 
     Animator animator;
     int lastDirection;
@@ -15,18 +16,25 @@ public class IsometricCharacterRenderer : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    public void SetDirection(Vector2 direction)
+    public void SetDirection(Vector2 direction, string optional = "None")
     {
         string[] directionArray = null;
 
-        if (direction.magnitude < 0.01f)
+        if (optional == "None") {
+            if (direction.magnitude < 0.01f)
+            {
+                directionArray = staticDirections;
+            } else
+            {
+                directionArray = runDirections;
+                lastDirection = DirectionToIndex(direction, 8);
+            }
+            } else if (optional == "Pull") 
         {
-            directionArray = staticDirections;
-        } else
-        {
-            directionArray = runDirections;
+            directionArray = pullDirections;
             lastDirection = DirectionToIndex(direction, 8);
         }
+        
 
         animator.Play(directionArray[lastDirection]);
     }
