@@ -26,7 +26,7 @@ public class AbilityHolder : MonoBehaviour
             case AbilityState.ready: 
                 if(Input.GetKeyDown(key)) 
                 {
-                    entangle.Activate();
+                    entangle.Activate(gameObject);
                     state = AbilityState.active;
                     activeTime = entangle.activeTime;
                 }
@@ -49,7 +49,7 @@ public class AbilityHolder : MonoBehaviour
                 }
                 else
                 {
-                    state = AbilityState.cooldown;
+                    state = AbilityState.ready;
                 }
             break;
         }

@@ -2,12 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RootEntangleAbility : MonoBehaviour
+[CreateAssetMenu]
+public class RootEntangleAbility : Ability
 {
-    public new string name;
-    public float cooldownTime;
-    public float activeTime;
-    public float resource;
+    public int waterCost;
+    public int entangleRange;
+    public override void Activate(GameObject parent)
+    {
+        IsometricPlayerMovement movement = parent.GetComponent<IsometricPlayerMovement>();
 
-    public virtual void Activate() {}
+        Rigidbody2D rb = parent.GetComponent<Rigidbody2D>();
+    
+        
+    }
+
 }

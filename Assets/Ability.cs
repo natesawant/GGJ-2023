@@ -10,5 +10,5 @@ public class Ability : ScriptableObject
     public float activeTime;
     public float resource;
 
-    public virtual void Activate() {}
+    public virtual void Activate(GameObject parent) {}
 }
