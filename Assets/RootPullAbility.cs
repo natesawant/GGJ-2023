@@ -79,6 +79,7 @@ public class RootPullAbility : MonoBehaviour
     IEnumerator LockInPlace(float time, Rigidbody2D rb)
     {
         yield return new WaitForSeconds(time);
-        rb.bodyType = RigidbodyType2D.Static;
+        //rb.bodyType = RigidbodyType2D.Static;
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 }
