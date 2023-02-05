@@ -40,14 +40,17 @@ public class PauseMenu : MonoBehaviour
     }
 
     public void TitleScreen() {
+        Resume();
         SceneManager.LoadScene(titleScreen);
     }
 
     public void Exit() {
+        Resume();
         Application.Quit();
     }
 
     public void Credits() {
+        Resume();
         SceneManager.LoadScene(creditsScreen);
     }
 }

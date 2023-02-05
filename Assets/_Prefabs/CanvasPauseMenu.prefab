@@ -52,7 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 3386234284985826019}
   titleScreen: Title Screen
-  creditsScreen: 
+  creditsScreen: Credits
 --- !u!1 &3386234284985826019
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,6 +14,7 @@ public class RootPullAbility : MonoBehaviour
     public List<AudioClip> whipNoises;
     public GameObject rootWhip;
     Animator animator;
+    bool invulnerable = false;
 
 
     // Start is called before the first frame update
@@ -81,6 +82,7 @@ public class RootPullAbility : MonoBehaviour
                         rb = GetComponent<Rigidbody2D>();
                         rb.AddForce(dir * pullForce);
                         StartCoroutine(movementScript.DisableMovement(0.4f));
+                        StartCoroutine(Invulnerable(1f));
                         isoRenderer.SetDirection(dir, optional: "Pull");
                         audioSrc.clip = whipNoises[Random.Range(0, whipNoises.Count)];
                         audioSrc.Play();
@@ -95,6 +97,17 @@ public class RootPullAbility : MonoBehaviour
                 }
             }
         }
+    }
+
+    IEnumerator Invulnerable(float time) {
+        Debug.Log("SETTING TO INVULNERABLE");
+        invulnerable = true;
+        yield return new WaitForSeconds(time);
+        invulnerable = false;
+    }
+
+    public bool isInvulnerable() {
+        return invulnerable;
     }
     IEnumerator LockInPlace(float time, Rigidbody2D rb)
     {
