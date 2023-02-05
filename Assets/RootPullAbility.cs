@@ -64,6 +64,7 @@ public class RootPullAbility : MonoBehaviour
                         isoRenderer.SetDirection(dir, optional: "Pull");
                         audioSrc.clip = whipNoises[Random.Range(0, whipNoises.Count)];
                         audioSrc.Play();
+                        hit.rigidbody.gameObject.GetComponent<AudioSource>().Play();
                         break;
                     case "Solid":
                         Debug.Log("Solid object hit");

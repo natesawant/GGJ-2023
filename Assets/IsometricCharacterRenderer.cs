@@ -10,10 +10,14 @@ public class IsometricCharacterRenderer : MonoBehaviour
 
     Animator animator;
     int lastDirection;
+    AudioSource audioSrc;
+    public AudioClip runNoise;
+    public List<AudioClip> gruntNoises;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        audioSrc = GetComponent<AudioSource>();
     }
 
     public void SetDirection(Vector2 direction, string optional = "None")
@@ -24,15 +28,27 @@ public class IsometricCharacterRenderer : MonoBehaviour
             if (direction.magnitude < 0.01f)
             {
                 directionArray = staticDirections;
+                audioSrc.Stop();
             } else
             {
                 directionArray = runDirections;
                 lastDirection = DirectionToIndex(direction, 8);
+                audioSrc.clip = runNoise;
+                if (!audioSrc.isPlaying)
+                {
+                    audioSrc.Play();
+                }
+
             }
             } else if (optional == "Pull") 
         {
             directionArray = pullDirections;
             lastDirection = DirectionToIndex(direction, 8);
+            audioSrc.clip = gruntNoises[Random.Range(0, gruntNoises.Count)];
+            if (!audioSrc.isPlaying)
+            {
+                audioSrc.Play();
+            }
         }
         
 
