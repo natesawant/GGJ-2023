@@ -9,6 +9,8 @@ public class PressurePlate : MonoBehaviour
     public List<ActivatableInterface> activatableObjects;
     public AudioClip activateNoise, deactivateNoise;
     AudioSource audioSrc;
+    public Sprite button_down;
+    public Sprite button_up;
 
     private void Start()
     {
@@ -24,8 +26,9 @@ public class PressurePlate : MonoBehaviour
                 foreach (ActivatableInterface obj in activatableObjects) {
                     obj.Activate();
                     Debug.Log(obj.name + " activated");
-                    audioSrc.clip = activateNoise;
+                    audioSrc.clip = activateNoise; 
                     audioSrc.Play();
+                    this.gameObject.GetComponent<SpriteRenderer>().sprite = button_down;
                 }
             }
         }
@@ -42,6 +45,7 @@ public class PressurePlate : MonoBehaviour
                     Debug.Log(obj.name + " deactivated");
                     audioSrc.clip = deactivateNoise;
                     audioSrc.Play();
+                    this.gameObject.GetComponent<SpriteRenderer>().sprite = button_up;
                 }
             }
         }
