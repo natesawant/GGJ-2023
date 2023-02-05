@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +9,10 @@ public class RootPullAbility : MonoBehaviour
     public float pullForce, grabForce;
     IsometricPlayerMovement movementScript;
     IsometricCharacterRenderer isoRenderer;
+    AudioSource audioSrc;
+    public List<AudioClip> whipNoises;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +20,7 @@ public class RootPullAbility : MonoBehaviour
         coll = GetComponent<Collider2D>();
         movementScript = GetComponent<IsometricPlayerMovement>();
         isoRenderer = GetComponentInChildren<IsometricCharacterRenderer>();
+        audioSrc = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -58,6 +62,8 @@ public class RootPullAbility : MonoBehaviour
                         StartCoroutine(LockInPlace(0.5f, rb));
                         StartCoroutine(movementScript.DisableMovement(0.5f));
                         isoRenderer.SetDirection(dir, optional: "Pull");
+                        audioSrc.clip = whipNoises[Random.Range(0, whipNoises.Count)];
+                        audioSrc.Play();
                         break;
                     case "Solid":
                         Debug.Log("Solid object hit");
@@ -65,6 +71,8 @@ public class RootPullAbility : MonoBehaviour
                         rb.AddForce(dir * pullForce);
                         StartCoroutine(movementScript.DisableMovement(0.4f));
                         isoRenderer.SetDirection(dir, optional: "Pull");
+                        audioSrc.clip = whipNoises[Random.Range(0, whipNoises.Count)];
+                        audioSrc.Play();
                         break;
                     case "Breakable":
                         Debug.Log("Breakable object hit");
