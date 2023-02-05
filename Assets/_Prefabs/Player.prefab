@@ -423,7 +423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0046224c6643b14ab057c636420a1ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 0.1
+  radius: 0.05
   maxDistance: 3
   pullForce: 250
   grabForce: 150
