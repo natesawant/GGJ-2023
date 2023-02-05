@@ -52,7 +52,6 @@ public class RootPullAbility : MonoBehaviour
                         rb = hit.rigidbody;
                         rb.bodyType = RigidbodyType2D.Dynamic;
                         rb.gravityScale = 0f;
-                        rb.constraints = RigidbodyConstraints2D.None;
                         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
                         rb.drag = 3;
                         rb.AddForce(-dir * grabForce);
@@ -81,6 +80,6 @@ public class RootPullAbility : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         //rb.bodyType = RigidbodyType2D.Static;
-        rb.constraints = RigidbodyConstraints2D.FreezePosition;
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 }
