@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class RootPullAbility : MonoBehaviour
 {
@@ -11,7 +12,8 @@ public class RootPullAbility : MonoBehaviour
     IsometricCharacterRenderer isoRenderer;
     AudioSource audioSrc;
     public List<AudioClip> whipNoises;
-
+    public GameObject rootWhip;
+    Animator animator;
 
 
     // Start is called before the first frame update
@@ -21,6 +23,7 @@ public class RootPullAbility : MonoBehaviour
         movementScript = GetComponent<IsometricPlayerMovement>();
         isoRenderer = GetComponentInChildren<IsometricCharacterRenderer>();
         audioSrc = GetComponent<AudioSource>();
+        animator = rootWhip.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -29,6 +32,7 @@ public class RootPullAbility : MonoBehaviour
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = Camera.main.nearClipPlane;
         Vector2 worldPosition = Camera.main.ScreenToWorldPoint(mousePos);
+
 
         Vector2 playerPosition = (Vector2)transform.position + coll.offset;
 
@@ -49,6 +53,11 @@ public class RootPullAbility : MonoBehaviour
                 playerPosition = (Vector2)transform.position + coll.offset;
                 dir = (worldPosition - playerPosition).normalized;
 
+                //Quaternion rotation = Quaternion.LookRotation(dir);
+                float zRotation = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                Quaternion rotation =  Quaternion.Euler(new Vector3(0, 0, zRotation));
+                rootWhip.transform.rotation = rotation;
+
                 switch (hit.collider.gameObject.tag)
                 {
                     case "Pullable":
@@ -65,6 +74,7 @@ public class RootPullAbility : MonoBehaviour
                         audioSrc.clip = whipNoises[Random.Range(0, whipNoises.Count)];
                         audioSrc.Play();
                         hit.rigidbody.gameObject.GetComponent<AudioSource>().Play();
+                        animator.Play("RootWhip");
                         break;
                     case "Solid":
                         Debug.Log("Solid object hit");
@@ -74,6 +84,7 @@ public class RootPullAbility : MonoBehaviour
                         isoRenderer.SetDirection(dir, optional: "Pull");
                         audioSrc.clip = whipNoises[Random.Range(0, whipNoises.Count)];
                         audioSrc.Play();
+                        animator.Play("RootWhip");
                         break;
                     case "Breakable":
                         Debug.Log("Breakable object hit");
