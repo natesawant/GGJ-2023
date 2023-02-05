@@ -7,7 +7,14 @@ public class PressurePlate : MonoBehaviour
     int activeItems;
     bool activated = false;
     public List<ActivatableInterface> activatableObjects;
-    
+    public AudioClip activateNoise, deactivateNoise;
+    AudioSource audioSrc;
+
+    private void Start()
+    {
+        audioSrc = GetComponent<AudioSource>();
+    }
+
     void OnTriggerEnter2D(Collider2D col) {
         Debug.Log("ENTERED: " + col.gameObject.tag);
         if (col.gameObject.tag == "Pullable" || col.gameObject.tag == "Player") {
@@ -17,6 +24,8 @@ public class PressurePlate : MonoBehaviour
                 foreach (ActivatableInterface obj in activatableObjects) {
                     obj.Activate();
                     Debug.Log(obj.name + " activated");
+                    audioSrc.clip = activateNoise;
+                    audioSrc.Play();
                 }
             }
         }
@@ -31,6 +40,8 @@ public class PressurePlate : MonoBehaviour
                 foreach (ActivatableInterface obj in activatableObjects) {
                     obj.Deactivate();
                     Debug.Log(obj.name + " deactivated");
+                    audioSrc.clip = deactivateNoise;
+                    audioSrc.Play();
                 }
             }
         }
